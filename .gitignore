@@ -1,0 +1,10 @@
+*.pyc
+Pipfile
+Pipfile.lock
+*debug.log
+*settings.json
+*.DS_Store
+.vscode
+henka.egg-info
+build
+dist
