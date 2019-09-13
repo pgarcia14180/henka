@@ -14,15 +14,22 @@ Puedes renombrar atributos, hacer joins entre varios df, importar/exportar info 
 
 ## Instalacion
 #### Stable Build
+Configuracion de repositorios en ~/.pip/pip.conf:
+```
+[global]
+index-url = https://cencoreg.cencosud.corp/repository/pyprod/simple
+trusted-host = cencoreg.cencosud.corp
+               pypi.org
+               files.pythonhosted.org
+extra-index-url= http://pypi.org/simple
+                 https://pypi.org/simple
+```
+
 Para instalar la ultima version:
 ```
 pip install henka
 ```
- 
-Para su uso:
-```python
-import bar as foo
-```
+
 #### Instalacion desde la fuente
 Se requiere [Bazel](https://bazel.build/) para generar los componentes.
 
@@ -36,7 +43,23 @@ bazel-bin/henka_pip_pkg artifacts
 pip install artifacts/henka-*.whl
 ```
 
-## Ejemplos
+## Uso y Ejemplos
+### Uso:
+Se debe comenzar importando los componentes:
+```python
+from henka.config_helpers.henka_config import HenkaConfig
+from henka.processes.henka import henka
+
+local_config = [
+    {
+        # aca van las  configuraciones para df fuentes, joins, reemplazos, destino
+    }
+]
+
+config = HenkaConfig(*local_config)
+henka(config)
+```
+### Ejemplos:
 Puedes revisar en [`examples/`](examples/)
 para diferentes casos de uso.
 
