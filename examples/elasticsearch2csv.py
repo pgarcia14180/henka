@@ -20,31 +20,6 @@ def process_cybers(date, date2):
                     },
                 'search_or_agg': 'search'
                 },
-            'process': {
-                'fields': [],
-                'replace_content': {
-                },
-                'keep_row': {
-                },
-                'remove_row': {
-                    #'dtienda': ['B.BROWN']
-                },
-                'process_content': {
-                    #'remove_first_character': ['Codigo_de_tienda'],
-                    #'convert_to_string': ['location_name'],
-                    #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
-                },
-                'concatenate_columns': {
-                },
-                'delete_columns': [
-                    #'Nombre', 'Apellido'
-                    ],
-                'rename_columns': {
-                },
-                'mock': {
-                    #'acceso': 2,
-                    
-                }
             },
             'save': {
                 'name': 'csv',
@@ -67,31 +42,7 @@ def process_cybers(date, date2):
                 'search_or_agg': 'search'
                 },
             'process': {
-                'fields': [],
                 'remove_duplicates': ['id_h'],
-                'replace_content': {
-                },
-                'keep_row': {
-                },
-                'remove_row': {
-                    #'ruttcb': [0]
-                },
-                'process_content': {
-                    #'remove_first_character': ['Codigo_de_tienda'],
-                    #'convert_to_string': ['location_name'],
-                    #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
-                },
-                'concatenate_columns': {
-                },
-                'delete_columns': [
-                    #'Nombre', 'Apellido'
-                    ],
-                'rename_columns': {
-                },
-                'mock': {
-                    #'acceso': 2,
-                    
-                }
             }
         },
         {
@@ -105,30 +56,11 @@ def process_cybers(date, date2):
                 'right_on': 'id_h',
                 },
             'process': {
-                'fields': [],
-                'replace_content': {
-                },
-                'keep_row': {
-                },
-                'remove_row': {
-                    #'dtienda': ['B.BROWN']
-                },
                 'process_content': {
                     #'remove_first_character': ['Codigo_de_tienda'],
                     'convert_to_string': ['ruttcb'],
                     #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
                 },
-                'concatenate_columns': {
-                },
-                'delete_columns': [
-                    #'Nombre', 'Apellido'
-                    ],
-                'rename_columns': {
-                },
-                'mock': {
-                    #'acceso': 2,
-                    
-                }
             },
             'save': {
                 'name': 'csv',
@@ -144,30 +76,6 @@ def process_cybers(date, date2):
                 'concatenated_columns': [ 'ruttcb', 'desc_codpagotsl'],
                 'groupby': ['sku', 'sku_desc', 'h2_desc', 'h5_desc', 'id_h']
                 },
-            'process': {
-                'fields': [],
-                'replace_content': {
-                },
-                'keep_row': {
-                },
-                'remove_row': {
-                    #'dtienda': ['B.BROWN']
-                },
-                'process_content': {
-                    #'remove_first_character': ['Codigo_de_tienda'],
-                    #'convert_to_string': ['location_name'],
-                    #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
-                },
-                'concatenate_columns': {
-                },
-                'delete_columns': [],
-                'rename_columns': {
-                },
-                'mock': {
-                    #'acceso': 2,
-                    
-                }
-            },
             'save': {
                 'name': 'csv',
                 'file_name': 'client_sku_concat.csv',
@@ -181,33 +89,6 @@ def process_cybers(date, date2):
                 'agg_type': 'sum',
                 'groupby': ['sku', 'sku_desc', 'h2_desc', 'h5_desc', 'id_h']
                 },
-            'process': {
-                'fields': [],
-                'replace_content': {
-                },
-                'keep_row': {
-                },
-                'remove_row': {
-                    #'dtienda': ['B.BROWN']
-                },
-                'process_content': {
-                    #'remove_first_character': ['Codigo_de_tienda'],
-                    #'convert_to_string': ['location_name'],
-                    #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
-                },
-                'concatenate_columns': {
-                },
-                'delete_columns': [
-                    #'Nombre', 'Apellido'
-                    ],
-                'rename_columns': {
-
-                },
-                'mock': {
-                    #'acceso': 2,
-                    
-                }
-            },
             'save': {
                 'name': 'csv',
                 'file_name': 'client_sku_sum.csv',
@@ -223,32 +104,6 @@ def process_cybers(date, date2):
                 'left_on': ['sku', 'sku_desc', 'h2_desc', 'h5_desc', 'id_h'],
                 'right_on': ['sku', 'sku_desc', 'h2_desc', 'h5_desc', 'id_h'],
                 },
-            'process': {
-                'fields': [],
-                'replace_content': {
-                },
-                'keep_row': {
-                },
-                'remove_row': {
-                    #'dtienda': ['B.BROWN']
-                },
-                'process_content': {
-                    #'remove_first_character': ['Codigo_de_tienda'],
-                    #'convert_to_string': ['ruttcb'],
-                    #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
-                },
-                'concatenate_columns': {
-                },
-                'delete_columns': [
-                    #'Nombre', 'Apellido'
-                    ],
-                'rename_columns': {
-                },
-                'mock': {
-                    #'acceso': 2,
-                    
-                }
-            },
             'save': {
                 'name': 'csv',
                 'append': True,
