@@ -3,15 +3,6 @@ from functools import reduce
 from henka.utils.dictionary import DictToClass
 from .clients import ESClientConfig
 
-source =  {
-    'name': 'elasticsearch',
-    'index_name': 'mdm_txd_tiendas',
-    'url': 'internal-lb-sales-rf-beta-2096155701.us-east-1.elb.amazonaws.com',
-    'port': '9200',
-    'scheme': 'http',
-    'fields': ['codigosap', 'numctl']
-}
-
 class ESSource(DictToClass):
 
     def __init__(self, *args, **kwargs):
@@ -25,8 +16,8 @@ class ExcelSource(DictToClass):
     
     def get_dataframe(self):
         df = pd.read_excel(self.file_name, error_bad_lines=False, sheet_name = self.sheet_name)
-        if hasattr(self, 'fields'):
-            df = df[self.fields]
+        if hasattr(self, 'columns'):
+            df = df[self.columns]
         return df
 
 class CSVSource(DictToClass):
@@ -37,8 +28,8 @@ class CSVSource(DictToClass):
         }
         if hasattr(self, 'separator'):
             read_csv_args['sep'] = self.separator
-        if hasattr(self, 'fields'):
-            read_csv_args['usecols'] = self.fields
+        if hasattr(self, 'columns'):
+            read_csv_args['usecols'] = self.columns
         if hasattr(self, 'encoding'):
             read_csv_args['encoding'] = self.encoding
         return pd.read_csv(self.file_name, error_bad_lines=False,  **read_csv_args)
