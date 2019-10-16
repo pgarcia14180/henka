@@ -19,6 +19,8 @@ class DataframeSave(DictToClass):
             self.save_to_excel(df)
         if self.name == 'csv':
             self.save_to_csv(df)
+        if self.name == 'pickle':
+            self.save_to_pickle(df)
         
 
     def save_to_elastic(self, df):
@@ -41,7 +43,10 @@ class DataframeSave(DictToClass):
             'index' : False
         }
         header = True
-        csv_file = self.file_name
+        if not hasattr(self, 'file_name'):
+            csv_file = self._dataframe_name+'.csv'
+        else:
+            csv_file = self.file_name
         if hasattr(self, 'header') and not self.header:
             params['header'] = False
         if hasattr(self, 'separator'):
@@ -49,3 +54,6 @@ class DataframeSave(DictToClass):
         if hasattr(self, 'append') and self.append and os.path.isfile(csv_file):
             params['mode'] = 'a'
         df.to_csv(csv_file, **params)
+
+    def save_to_pickle(self, df: pd.DataFrame):
+        df.to_pickle(self.file_name)
