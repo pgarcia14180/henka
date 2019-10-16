@@ -1,7 +1,6 @@
 import pandas as pd
 from henka.config_helpers.henka_config import HenkaConfig 
 from henka.processes.henka import henka 
-from henka.utils.dates import datetime_to_str
 from datetime import datetime
 from dateutil import tz
 

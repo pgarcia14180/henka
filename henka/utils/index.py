@@ -1,7 +1,6 @@
 import numpy as np
 import math
 from henka.utils.loggers import report
-from henka.utils.dates import get_fectrx_week_number
 import csv
 
 def create_index_body_list_iterator(index_body_list, index_name, id = 'id'):
