@@ -41,9 +41,9 @@ class ESClientConfig(DictToClass):
                     v = v if not ',' in v else v.split(',')
                 if 'agg_size' in k:
                     agg_body.update({'size': v}) 
-                elif 'fields' in k:
+                elif 'columns' in k:
                     v = v if isinstance(v, list) else [v]
-                    query_body.update({'_source': v})  
+                    body.update({'_source': v})
                 elif 'es_range' in k:
                     query_body.update({'__range': v})  
                 elif 'agg_sources' in k:
