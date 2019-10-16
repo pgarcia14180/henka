@@ -20,5 +20,5 @@ def report(*messages, logger = None, output = True):
     if not logger:
         logger = default_logger
     if output:
-        print(datetime.now().time(), ':', *messages)
-    logger.critical(str(messages).replace('(', '').replace(')', ''))
+        print(datetime.now().time(), ':', messages)
+    logger.critical(str(messages))
