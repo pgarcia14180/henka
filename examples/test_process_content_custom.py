@@ -1,7 +1,7 @@
 from henka.config_helpers.henka_config import HenkaConfig 
 from henka.processes.henka import henka 
 
-def test_process_content_custom():
+def test_formulate():
 
     local_config = [
         {
@@ -12,7 +12,7 @@ def test_process_content_custom():
                 'file_name': 'pcf_test.csv'
             },
             'process': {
-                'process_content_custom': [
+                'formulate': [
                     {   
                         'function': lambda col1, col2: col1+col2,
                         'result': 'col1',
@@ -53,8 +53,13 @@ def test_process_content_custom():
                         'function': lambda total: round(total//2),
                         'result': 'total'
                     },
+                    
 
                 ],
+                'delete_columns': ['col2', 'col3', 'col4', 'result'],
+                'rename_columns': {
+                    'col1': 'base'
+                },
             },
             'save': {
                 'name': 'csv',

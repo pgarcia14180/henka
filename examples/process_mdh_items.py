@@ -45,9 +45,12 @@ def process_mdh_items():
                         'Construcción': 6,
                     }
                 },
-                'process_content': {
-                    'convert_to_int': ['h1_code'],
-                },
+                'process_content': [
+                    {
+                        'formula': lambda value: int(value),
+                        'columns': ['h1_code'],
+                    }
+                ],
                 'rename_columns': {
                     'Gerencia_Linea': 'h1_desc',
                     'Nombre_Seccion': 'h2_desc',
@@ -80,18 +83,20 @@ def process_mdh_items():
                     'item_hierarchy_level_3_desc': replace_content_dict,
                     'item_hierarchy_level_4_desc': replace_content_dict,
                 },
-                'process_content': {
-                    'to_title': [
-                        'short_desc',
-                        'item_hierarchy_level_3_desc',
-                        'item_hierarchy_level_4_desc',
-                    ]
-                },
-                'process_content_custom': [
+                'process_content': [
+                    {
+                        'function': lambda value: value.to_title(),
+                        'columns': [
+                            'short_desc',
+                            'item_hierarchy_level_3_desc',
+                            'item_hierarchy_level_4_desc',
+                        ]
+                    }
+                ],
+                'formulate': [
                     {   
                         'function': process_main_scan_cd,
-                        'arguments': ['main_scan_cd'],
-                        'results': ['main_scan_cd'],
+                        'result': 'main_scan_cd',
                     }
                 ],
                 'rename_columns': {
@@ -116,9 +121,12 @@ def process_mdh_items():
                 'right_on': 'Rubro',
                 },
             'process': {
-                'process_content': {
-                    'convert_to_int': ['h1_code'],
-                },
+                'process_content': [
+                    {
+                        'formula': lambda value: int(value),
+                        'columns': ['h1_code'],
+                    }
+                ],
                 'delete_columns': [
                     'Rubro'
                     ],
