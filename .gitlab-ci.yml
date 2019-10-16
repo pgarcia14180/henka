@@ -1,0 +1,27 @@
+image: "python:3.7-slim-stretch"
+
+before_script:
+  - python --version
+
+stages:
+- build
+- deploy
+
+build:
+#  image: python:3.7-slim-stretch
+  stage: build
+  script:
+    - python3 -m pip install --upgrade pip setuptools wheel
+    - python3 setup.py sdist bdist_wheel
+
+develop:
+  stage: deploy
+  only:
+    - develop
+#  image: python:3.7-slim-stretch
+  variables:
+    VAR_PIP_CERT: CERT
+  script:
+    - wget https://cencoreg.cencosud.corp:443/ --ca-certificate=cacert.pem
+    - export PIP_CERT=`pwd`/cacert.pem
+    - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --verbose
