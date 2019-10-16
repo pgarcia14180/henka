@@ -56,11 +56,12 @@ def process_cybers(date, date2):
                 'right_on': 'id_h',
                 },
             'process': {
-                'process_content': {
-                    #'remove_first_character': ['Codigo_de_tienda'],
-                    'convert_to_string': ['ruttcb'],
-                    #'convert_to_int': ['Codigo_de_tienda', 'Prefijo_Tienda'],
-                },
+                'process_content': [
+                    {
+                        'function': lambda value: str(value),
+                        'columns': ['ruttcb']
+                    }
+                ]
             },
             'save': {
                 'name': 'csv',
@@ -85,7 +86,7 @@ def process_cybers(date, date2):
             'name': 'sku_sum',
             'source': {
                 'name': 'agg',
-                'dataframe': 'sku_client',
+                'dataframe_name': 'sku_client',
                 'agg_type': 'sum',
                 'groupby': ['sku', 'sku_desc', 'h2_desc', 'h5_desc', 'id_h']
                 },
