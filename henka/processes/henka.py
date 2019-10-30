@@ -7,6 +7,9 @@ from henka.utils.closure_functions import set_columns_from_arguments
 def remove_duplicates(df, config):
     return df.drop_duplicates(config.remove_duplicates, keep='first')
 
+def drop_empty(df, config):
+    return df.dropna(subset = config.drop_empty)
+
 def duplicate_columns(df, config):
     for k, vs in config.duplicate_columns.items():
         for v in vs:
@@ -120,6 +123,7 @@ henka_functions = {
     'delete_columns':delete_columns,
     'rename_columns':rename_columns,
     'fill_empty': fill_empty,
+    'drop_empty': drop_empty,
 }
 
 def process_dataframe(dataframe_config, dataframes):
