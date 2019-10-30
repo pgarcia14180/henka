@@ -91,10 +91,13 @@ def get_dataframe_from_dataframe_source(dataframes_dict, source):
         if hasattr(source, 'is_nested_list') and source.is_nested_list:
             def add_key_to_nested_list_of_dict(serie, *indices):
                 dictionary_list = []
-                for dictionary in serie:
-                    for i in range(1, len(indices), 2):
-                        dictionary.update({indices[i-1]: indices[i]})
-                        dictionary_list.append(dictionary)
+                try:
+                    for dictionary in serie:
+                        for i in range(1, len(indices), 2):
+                            dictionary.update({indices[i-1]: indices[i]})
+                            dictionary_list.append(dictionary)
+                except:
+                    pass
                 return dictionary_list
             index_name = [source.serie_index] if isinstance(source.serie_index, str) else source.serie_index
             index_serie = [source_df[source.serie_index]] if isinstance(source.serie_index, str) else [source_df[serie_index] for serie_index in source.serie_index]
