@@ -1,5 +1,10 @@
 image: "python:3.7-slim-stretch"
 
+cache:
+  key: build-cache
+  paths:
+    - dist/
+
 before_script:
   - python --version
 
@@ -12,21 +17,13 @@ build:
   script:
     - python3 -m pip install --upgrade pip setuptools wheel
     - python3 setup.py sdist bdist_wheel
-  cache:
-    key: build-cache
-    paths:
-    - dist/
 
 develop:
   stage: deploy
   only:
     - develop
   script:
-    - python3 -m pip install --upgrade pip twine
+    - python3 -m pip install --upgrade twine
     - echo quit | openssl s_client -showcerts -servername cencoreg.cencosud.corp -connect cencoreg.cencosud.corp:5000 > cacert.pem
     - export PIP_CERT=`pwd`/cacert.pem
     - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --username $NEXUS_USER --password $NEXUS_PWD --verbose
-  cache:
-    key: build-cache
-    paths:
-      - dist/
