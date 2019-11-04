@@ -20,8 +20,8 @@ develop:
     - develop
 #  image: python:3.7-slim-stretch
   variables:
-    VAR_PIP_CERT: CERT
+    PIP_CERT: CERT
   script:
     - echo quit | openssl s_client -showcerts -servername cencoreg.cencosud.corp -connect cencoreg.cencosud.corp:5000 > cacert.pem
     - export PIP_CERT=`pwd`/cacert.pem
-#    - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --verbose
+    - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --verbose
