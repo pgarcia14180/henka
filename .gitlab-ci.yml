@@ -28,3 +28,5 @@ develop:
     - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --username $NEXUS_USER --password $NEXUS_PWD --verbose
   cache:
     key: build-cache
+    paths:
+      - dist/
