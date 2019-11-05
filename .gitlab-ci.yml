@@ -40,10 +40,10 @@ test_install:
     paths:
       - dist/
 
-develop:
+release_deploy:
   stage: deploy_stage
   only:
-    - develop
+    - release
   script:
     - python3 -m pip install --upgrade twine
     - twine check dist/*

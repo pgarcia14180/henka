@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="henka",
-    version="1.0.1",
+    version="1.0.2",
     author="Pedro Garcia",
     author_email="pgarcia14180@gmail.com",
     description="Henka Lib",
