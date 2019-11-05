@@ -17,10 +17,19 @@ build:
     paths:
       - dist/
 
-unit_test:
+pylint:
   stage: test_stage
   script:
-    - echo Here the pylint...
+    - python3 -m pip install --upgrade pylint pylint-exit anybadge
+    - mkdir pylint
+    - FILES=$(find . -name "*.py" | grep -v "ci-scripts/")
+    - pylint --output-format=text ${FILES} | tee ./pylint/pylint.log || pylint-exit $?
+    - PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' ./pylint/pylint.log)
+    - anybadge --label=Pylint --file=pylint/pylint.svg --value=$PYLINT_SCORE 2=red 4=orange 8=yellow 10=green
+    - echo "Pylint score is $PYLINT_SCORE"
+  artifacts:
+    paths:
+      - pylint/
 
 develop:
   stage: deploy_stage
