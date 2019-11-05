@@ -1,32 +1,37 @@
 image: "python:3.7-slim-stretch"
 
-cache:
-  key: build-cache
-  untracked: true
-  paths:
-    - dist/
-
 before_script:
   - python --version
 
 stages:
-- build
-- deploy
+- build_stage
+- test_stage
+- deploy_stage
 
 build:
   stage: build
   script:
     - python3 -m pip install --upgrade pip setuptools wheel
     - python3 setup.py sdist bdist_wheel
-    - python3 -m pip install --upgrade twine
-    - twine check dist/*
-    - echo quit | openssl s_client -showcerts -servername cencoreg.cencosud.corp -connect cencoreg.cencosud.corp:5000 > cacert.pem
-    - export PIP_CERT=`pwd`/cacert.pem
-    - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --username $NEXUS_USER --password $NEXUS_PWD
+  artifacts:
+    paths:
+      - dist/
+
+unit_test:
+  stage: test_stage
+  script:
+    - echo Here the pylint...
 
 develop:
   stage: deploy
   only:
     - develop
   script:
-    - echo Done
+    - python3 -m pip install --upgrade twine
+    - twine check dist/*
+    - echo quit | openssl s_client -showcerts -servername cencoreg.cencosud.corp -connect cencoreg.cencosud.corp:5000 > cacert.pem
+    - export PIP_CERT=`pwd`/cacert.pem
+    - python3 -m twine upload --repository-url https://cencoreg.cencosud.corp/repository/pyprod/ dist/* --cert $PIP_CERT --username $NEXUS_USER --password $NEXUS_PWD
+  artifacts:
+    paths:
+      - dist/
