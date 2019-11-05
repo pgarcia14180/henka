@@ -21,7 +21,7 @@ pylint:
   stage: test_stage
   script:
     - python3 -m pip install -r requirements.txt
-    - python3 -m pip install --upgrade pylint pylint-exit anybadge
+    - python3 -m pip install pylint pylint-exit anybadge
     - mkdir pylint
     - FILES=$(find . -name "*.py" | grep -v "ci-scripts/")
     - pylint --output-format=text ${FILES} | tee ./pylint/pylint.log || pylint-exit $?
