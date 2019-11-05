@@ -20,6 +20,7 @@ build:
 pylint:
   stage: test_stage
   script:
+    - python3 -m pip install -r requirements.txt
     - python3 -m pip install --upgrade pylint pylint-exit anybadge
     - mkdir pylint
     - FILES=$(find . -name "*.py" | grep -v "ci-scripts/")
