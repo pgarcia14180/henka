@@ -9,7 +9,7 @@ stages:
 - deploy_stage
 
 build:
-  stage: build
+  stage: build_stage
   script:
     - python3 -m pip install --upgrade pip setuptools wheel
     - python3 setup.py sdist bdist_wheel
@@ -23,7 +23,7 @@ unit_test:
     - echo Here the pylint...
 
 develop:
-  stage: deploy
+  stage: deploy_stage
   only:
     - develop
   script:
