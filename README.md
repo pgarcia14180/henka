@@ -9,7 +9,7 @@ Puedes renombrar atributos, hacer joins entre varios df, importar/exportar info 
 ## Mantenedores
 | Subpackage    | Maintainers  | Contact Info                        |
 |:----------------------- |:----------- |:----------------------------|
-| [faqs](docs/README.md) | FAQS | @ec1363 |
+| [faqs](docs/README.md) | FAQS | ~~@ec1363~~ @criveass |
 
 
 ## Instalacion
