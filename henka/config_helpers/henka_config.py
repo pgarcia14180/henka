@@ -1,4 +1,4 @@
-from henka.utils.dictionary import DictToClass
+from henka.utils.dictionary import DictClass
 from .dataframes import DataframeConfig
 
 class HenkaConfig:
