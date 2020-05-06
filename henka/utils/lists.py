@@ -7,3 +7,10 @@ def yield_group_by(dict_list, key):
             grouped_dict[dict_item.get(key)] = [dict_item]
     for k, v in grouped_dict.items():
         yield (k, v)
+
+def chunks(origin_list, size):
+    """
+    yield parts of a list according to the size designed
+    """
+    for i in range(0, len(origin_list), size):
+        yield origin_list[i:i + size]
