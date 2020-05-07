@@ -34,8 +34,11 @@ def get_dataframe_from_dataframe_source(dataframes_dict, source):
     if source.name == 'join':
         return pd.merge(dataframes_dict[source.dataframe_left], dataframes_dict[source.dataframe_right], how= source.how, left_on = source.left_on, right_on = source.right_on)
     if source.name == 'agg':
-        agg = dataframes_dict[source.dataframe_name].groupby(source.groupby).agg(source.agg_type).reset_index()
-        if isinstance(source.agg_type, list):
+        if 'group_by' in source:
+            source.groupby = source.group_by
+        if 'groupby' in source:
+            agg = dataframes_dict[source.dataframe_name].groupby(source.groupby).agg(source.agg_type).reset_index()
+        if isinstance(source.agg_type, list) or isinstance(source.agg_type, dict):
             agg.columns = ['_'.join(column).strip() if column[1] else column[0] for column in agg.columns.values]
         return  agg
     if source.name == 'agg_concatenated':
