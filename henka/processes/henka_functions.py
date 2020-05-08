@@ -3,23 +3,24 @@ import numpy as np
 from henka.utils.text import get_replace_function
 from henka.utils.bool import get_has_content_function
 from henka.utils.closure_functions import set_columns_from_arguments
+from henka.utils.dictionary import unpack_dictionary_values
 from functools import reduce
 
-def remove_duplicates(df, config):
+def remove_duplicates(df, config, dataframes):
     """
     Remove duplicates of columns.
     "remove_duplictes": ["column1", "column2"]
     """
     return df.drop_duplicates(config.remove_duplicates, keep='first')
 
-def drop_empty(df, config):
+def drop_empty(df, config, dataframes):
     """
     Remove rows that have nan values
     "drop_empty": ["column1", "column2"]
     """
     return df.dropna(subset = config.drop_empty)
 
-def duplicate_columns(df, config):
+def duplicate_columns(df, config, dataframes):
     """
     Creates a duplicated column from a column.
     "duplicate_columns": {
@@ -31,7 +32,7 @@ def duplicate_columns(df, config):
             df[v] = df[k]
     return df
 
-def fill_empty(df, config):
+def fill_empty(df, config, dataframes):
     """
     Parameter must be either a value or a dictionary.
     The format of the dictionary is key being the column name, and the value the value to fill the nan.
@@ -44,7 +45,7 @@ def fill_empty(df, config):
         df = df.fillna(config.fill)
     return df
 
-def mock(df, config):
+def mock(df, config, dataframes):
     """
     Creates a column with only one value.
     "mock": {
@@ -55,13 +56,13 @@ def mock(df, config):
         df[column] = value
     return df
 
-def columns(df, config):
+def columns(df, config, dataframes):
     "A list that will select wich columns will be used in the dataframe"
     if bool(config.columns):
         df = df[config.columns]
     return df
 
-def replace_content(df, config):
+def replace_content(df, config, dataframes):
     """
     Replaces the content in the value of the rows. If the content to replace is a
     string, then it replace just that piece, else the entire content.
@@ -81,7 +82,7 @@ def replace_content(df, config):
             df[column] = df[column].map(replace_function)
     return df
 
-def keep_rows(df, config):
+def keep_rows(df, config, dataframes):
     """
     Deletes all rows except the ones found in the conditions.
     If the value is a string, then will check if the string is contained in the value
@@ -101,7 +102,7 @@ def keep_rows(df, config):
     df = reduce(lambda a, b: pd.concat([a, b]), dfs)
     return df
 
-def remove_rows(df, config):
+def remove_rows(df, config, dataframes):
     """
     Deletes the rows except found in the conditions.
     If the value is a string, then will see if the string is contained in the value
@@ -119,7 +120,7 @@ def remove_rows(df, config):
                 df = df[df[column].apply(has_content)]
     return df
 
-def process_content(df, config):
+def process_content(df, config, dataframes):
     """
     Applies a function to each value of the column
     "process_content": [
@@ -134,7 +135,7 @@ def process_content(df, config):
             df[column] = df[column].map(function_dict['function'])
     return df
 
-def formulate(df, config):
+def formulate(df, config, dataframes):
     """
     Applies a vectorized function to series, giving a better performance.
     But all the values are series.
@@ -152,7 +153,7 @@ def formulate(df, config):
         df[function_dict['result']] = np.vectorize(function)()
     return df
 
-def concatenate_columns(df, config):
+def concatenate_columns(df, config, dataframes):
     """
     Takes multiple columns, converts them in string, and concatenate them.
     It take extra arguments, opening and closing to wrap the columns.
@@ -182,7 +183,7 @@ def concatenate_columns(df, config):
             df[new_column_name] = concatenated_series
     return df
 
-def remove_columns(df, config):
+def remove_columns(df, config, dataframes):
     """
     Delete specified columns
     "remove_columns": ["column1", "column2"]
@@ -191,7 +192,7 @@ def remove_columns(df, config):
         df = df.drop(columns=[to_remove_column])
     return df
 
-def keep_columns(df, config):
+def keep_columns(df, config, dataframes):
     """
     Delete all columns except the ones specified in the list
     "keep_columns": ["column1", "column2"]
@@ -201,7 +202,7 @@ def keep_columns(df, config):
         df = df.drop(columns=[to_remove_column])
     return df
 
-def rename_columns(df, config):
+def rename_columns(df, config, dataframes):
     """
     Rename columns, key is the original andd value is the new name
     "rename_columns": {
@@ -210,6 +211,36 @@ def rename_columns(df, config):
     """
     if bool(config.rename_columns):
         df = df.rename(columns=config.rename_columns)
+    return df
+
+def total(df, config, dataframes):
+    """
+    Creates a total row at the end  of the dataframe
+    --- Example ---
+    'total': {
+            'default_function': 'sum',
+            'default_value': 'resumen',
+            'excluded_columns': ['fectrx'],
+            'functions': {
+                'diff_retail_sum': 'mean',
+                'diff_tsc_sum': 'mean',
+                'part_app': 'mean',
+                'part_rep': 'mean',
+            }
+        }
+    """
+    default_function, default_value, excluded_columns, functions = unpack_dictionary_values(config.total, 'default_function', 'default_value', 'excluded_columns', 'functions')
+    value = default_value if default_value else 'total'
+    df = df.append(pd.Series(name=value))
+    for column in df.columns.values:
+        if not column in excluded_columns:
+            try:
+                function = functions.get(column) if column in functions else default_function
+                df[column][df.index[-1]] = pd.Series(df[column].agg(function))
+            except TypeError:
+                df[column][df.index[-1]] = value
+        else:
+            df[column][df.index[-1]] = value
     return df
 
 henka_functions = {
@@ -227,4 +258,5 @@ henka_functions = {
     'rename_columns':rename_columns,
     'fill_empty': fill_empty,
     'drop_empty': drop_empty,
+    'total': total,
 }
